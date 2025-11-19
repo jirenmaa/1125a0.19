@@ -1,0 +1,80 @@
+export const projects = [
+ {
+  name: "Chromatic Anomaly",
+  type: "Generative Art",
+  project: "P5.JS, FLOW FIELD ALGORITHMS",
+  label: "2024",
+ },
+ {
+  name: "Echo Bloom Studio",
+  type: "Interactive Portfolio",
+  project: "THREE.JS, INSTANCED MESHES, DISSOLVE EFFECT",
+  label: "2024",
+ },
+ {
+  name: "Warped Scroll Archive",
+  type: "Experimental Layout",
+  project: "GSAP, LENIS, CUSTOM WEBGL CURTAINS",
+ 	 label: "2023",
+ },
+ {
+  name: "Kinetic Type Engine",
+  type: "Creative Typography",
+  project: "CANVAS API, PHYSICAL SIMULATION",
+  label: "2023",
+ },
+ {
+  name: "The Glitch Shaman",
+  type: "VFX Software",
+  project: "RUST, WEBASSEMBLY, PIXEL SHADERS",
+  label: "2024",
+ },
+ {
+  name: "Neural Drip Feed",
+  type: "Machine Learning / Art",
+  project: "TENSORFLOW.JS, STYLE TRANSFER",
+  label: "2023",
+ },
+ {
+  name: "Prism Haze Filter",
+  type: "Image Processing",
+  project: "GLSL SHADERS, FRAGMENT PIPELINE",
+  label: "2022",
+ },
+ {
+  name: "Fluid Dynamics Explorer",
+  type: "Simulation Tool",
+  project: "D3.JS, WEBGL, PARTICLE SYSTEMS",
+  label: "2024",
+ },
+ {
+  name: "Quantum Canvas",
+  type: "Web Audio Visualizer",
+  project: "WEB AUDIO API, FFT ANALYSIS",
+  label: "2023",
+ },
+ {
+  name: "Substance Navigator",
+  type: "Tooling / CLI",
+  project: "NODE.JS, VUE.JS, ASSET MANAGEMENT",
+  label: "2022",
+ },
+ {
+  name: "Infinite Grid Hopper",
+  type: "Perlin Noise Effect",
+  project: "THREE.JS, RAYCASTING INTERACTIVITY",
+  label: "2024",
+ },
+ {
+  name: "The Temporal Map",
+  type: "Data Visualization",
+  project: "REACT, D3.JS, TIME-SERIES VISUALS",
+  label: "2023",
+ },
+ {
+  name: "Synthetic Reality UI",
+  type: "VR/AR Concept",
+  project: "A-FRAME, MOTION TRACKING",
+  label: "2024",
+ },
+];
