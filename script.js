@@ -87,23 +87,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!insideRect(mouse.x, mouse.y, rect)) {
       const imgs = projectPreview.querySelectorAll("img");
-      imgs.forEach((img) =>
-        gsap.to(img, {
+
+      imgs.forEach((img) => gsap.to(img, {
           scale: 0,
           duration: 0.4,
           ease: "power2.out",
           onComplete: () => img.remove(),
-        })
-      );
+      }));
     }
   };
 
   // Main function to update the state of projects (text and active element)
   const updateProjects = () => {
-    // Clear preview images if the mouse is outside the list
+    // Clear preview images if the mouse is outside the list container
     clearPreviewIfOutside();
 
-    // Check if a project is currently active (hovered)
+    // Resetting non-active projects (Fix for fast cursor movement)
+    projectsElements.forEach((project) => {
+      const rect = project.getBoundingClientRect();
+      const wrap = project.querySelector(".project-wrapper");
+      const isInside = insideRect(mouse.x, mouse.y, rect);
+
+      // Check if the project is NOT the currently hovered one AND the mouse is outside its bounds
+      if (project !== activeProject && !isInside) {
+        // Calculate the vertical center to determine the exit direction
+        const centerY = rect.top + rect.height / 2;
+        const shouldBeTop = mouse.y < centerY;
+
+        // Force the project text wrapper to exit (TOP or BOTTOM position)
+        gsap.to(wrap, {
+          y: shouldBeTop ? POSITIONS.TOP : POSITIONS.BOTTOM,
+          duration: 0.35,
+          ease: "power2.out",
+        });
+      }
+    });
+
+    // Handling the active (currently hovered) project
     if (activeProject) {
       const rect = activeProject.getBoundingClientRect();
       const stillInside = insideRect(mouse.x, mouse.y, rect);
@@ -111,43 +131,43 @@ document.addEventListener("DOMContentLoaded", () => {
       // If the mouse has moved outside the active project
       if (!stillInside) {
         const wrap = activeProject.querySelector(".project-wrapper");
-        // Determine if the mouse exited from the top half
-        const exitFromTop = mouse.y < rect.top + rect.height / 2;
+        // Determine the exit direction (top half or bottom half)
+        const exitTop = mouse.y < rect.top + rect.height / 2;
 
-        // Animate the text wrapper to the TOP or BOTTOM exit position
+        // Animate text wrapper to the TOP or BOTTOM exit position
         gsap.to(wrap, {
-          y: exitFromTop ? POSITIONS.TOP : POSITIONS.BOTTOM,
+          y: exitTop ? POSITIONS.TOP : POSITIONS.BOTTOM,
           duration: 0.4,
           ease: "power2.out",
         });
 
-        // Reset the active project
         activeProject = null;
       }
     }
 
-    // Loop through all project elements to check for new hover
-    projectsElements.forEach((project) => {
-      // Skip if this project is already the active one
-      if (project === activeProject) return;
+    // Activating a new project (Only run if no project is active)
+    if (!activeProject) {
+      // Loop through all projects to find a new hover state
+      projectsElements.forEach((project) => {
+        const rect = project.getBoundingClientRect();
 
-      const rect = project.getBoundingClientRect();
-      // Skip if the mouse is not inside this project
-      if (!insideRect(mouse.x, mouse.y, rect)) return;
+        // If the mouse is currently inside a project
+        if (insideRect(mouse.x, mouse.y, rect)) {
+          const wrap = project.querySelector(".project-wrapper");
 
-      // If inside and not the active project, make it active and move text to MIDDLE position
-      const wrap = project.querySelector(".project-wrapper");
-      gsap.to(wrap, {
-        y: POSITIONS.MIDDLE,
-        duration: 0.4,
-        ease: "power2.out",
+          // Animate the text wrapper to the MIDDLE position (hover state)
+          gsap.to(wrap, {
+            y: POSITIONS.MIDDLE,
+            duration: 0.4,
+            ease: "power2.out",
+          });
+
+          activeProject = project;
+        }
       });
+    }
 
-      // Set this project as the new active project
-      activeProject = project;
-    });
-
-    // Reset the RAF scheduled flag
+    // Reset the RAF scheduled flag so the function can be called again
     rafScheduled = false;
   };
 
@@ -234,7 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Event listener for mouse leaving a project element
     project.addEventListener("mouseleave", (e) => {
-      // Reset the active project
       activeProject = null;
 
       const rect = project.getBoundingClientRect();
