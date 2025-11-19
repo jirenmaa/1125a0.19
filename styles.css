@@ -4,10 +4,21 @@
   box-sizing: border-box;
 }
 
+html, body {
+  scrollbar-width: none;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none; /* IE / old Edge */
+}
+
 body {
   background-color: #e3e3db;
   font-family: "Saans TRIAL", sans-serif;
   overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 img {
